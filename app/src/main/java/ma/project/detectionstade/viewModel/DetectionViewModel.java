@@ -5,9 +5,11 @@ import android.net.Uri;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ma.project.detectionstade.model.Detection;
+import ma.project.detectionstade.model.JwtResponse;
 import ma.project.detectionstade.model.Maladie;
 import ma.project.detectionstade.model.Patient;
 import ma.project.detectionstade.model.Stade;
@@ -29,6 +31,15 @@ public class DetectionViewModel extends ViewModel {
     private Stade stade;
     private Patient patient;
     private Uri imagePath;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Stade getStade() {
         return stade;
@@ -93,7 +104,7 @@ public class DetectionViewModel extends ViewModel {
     public void addDetectionsApi(Detection detection, Maladie maladie){
         detectionRepository.addDetectionsApi(detection, maladie);
     }
-    public LiveData<String> loginApi(String email, String password){
+    public LiveData<JwtResponse> loginApi(String email, String password){
         return detectionRepository.loginApi(email,password);
     }
 }

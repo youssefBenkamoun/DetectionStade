@@ -2,9 +2,11 @@ package ma.project.detectionstade.repository;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ma.project.detectionstade.model.Detection;
+import ma.project.detectionstade.model.JwtResponse;
 import ma.project.detectionstade.model.Maladie;
 import ma.project.detectionstade.model.Patient;
 import ma.project.detectionstade.model.Stade;
@@ -53,7 +55,7 @@ public class DetectionRepository {
     public void addDetectionsApi(Detection detection, Maladie maladie1){
         detectionClientAPI.addDetectionsApi(detection, maladie1);
     }
-    public LiveData<String> loginApi(String email, String password){
+    public LiveData<JwtResponse> loginApi(String email, String password){
         detectionClientAPI.loginApi(email,password);
         return detectionClientAPI.getLogin();
     }

@@ -21,11 +21,13 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ma.project.detectionstade.model.JwtResponse;
 import ma.project.detectionstade.retrofit.RetrofitService;
 import ma.project.detectionstade.viewModel.DetectionViewModel;
 import retrofit2.Call;
@@ -78,17 +80,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void ObserveAnyChange(String email, String password){
-        detectionViewModel.loginApi(email,password).observe(this, new Observer<String>() {
+        detectionViewModel.loginApi(email,password).observe(this, new Observer<JwtResponse>() {
             @Override
-            public void onChanged(String check) {
+            public void onChanged(JwtResponse check) {
                 if(check != null){
-                    Toast.makeText(LoginActivity.this, check, Toast.LENGTH_SHORT).show();
-                    if(check.equals("done")){
+                    Toast.makeText(LoginActivity.this, check.getAccessToken(), Toast.LENGTH_SHORT).show();
+//                    if(check.equals("done")){
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Email or password incorrect", Toast.LENGTH_SHORT).show();
-                    }
+//                    }else{
+//                        Toast.makeText(LoginActivity.this, "Email or password incorrect", Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
 
@@ -97,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private LiveData<String> loginApi(String email, String password){
+    private LiveData<JwtResponse> loginApi(String email, String password){
         return detectionViewModel.loginApi(email,password);
     }
 }

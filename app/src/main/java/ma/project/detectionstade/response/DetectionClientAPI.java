@@ -13,10 +13,12 @@ import java.util.concurrent.TimeUnit;
 
 import ma.project.detectionstade.AppExecutors;
 import ma.project.detectionstade.model.Detection;
+import ma.project.detectionstade.model.JwtResponse;
 import ma.project.detectionstade.model.Maladie;
 import ma.project.detectionstade.model.Patient;
 import ma.project.detectionstade.model.Stade;
 import ma.project.detectionstade.retrofit.RetrofitService;
+import ma.project.detectionstade.viewModel.DetectionViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,9 +28,10 @@ public class DetectionClientAPI {
     private MutableLiveData<List<Patient>> patients;
     private MutableLiveData<List<Maladie>> maladies;
     private MutableLiveData<List<Stade>> stades;
-    private MutableLiveData<String> check;
+    private MutableLiveData<JwtResponse> check;
 
     private static DetectionClientAPI instance;
+    DetectionViewModel detectionViewModel1;
 
     private RetreiveDetectionsRunnable retreiveDetectionsRunnable;
 
@@ -55,7 +58,7 @@ public class DetectionClientAPI {
     public LiveData<List<Stade>> getStade(){
         return stades;
     }
-    public LiveData<String> getLogin(){
+    public LiveData<JwtResponse> getLogin(){
         return check;
     }
 
@@ -75,16 +78,18 @@ public class DetectionClientAPI {
         });
     }
     public void loginApi(String email, String password){
-        login(email,password).enqueue(new Callback<String>() {
+        login(email,password).enqueue(new Callback<JwtResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String users = response.body();
+            public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
+                JwtResponse users = response.body();
                 System.out.println(users);
                 check.postValue(users);
+                detectionViewModel1 = DetectionViewModel.getInit();
+                detectionViewModel1.setToken(users.getAccessToken());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<JwtResponse> call, Throwable t) {
                 System.out.println("walo"+ t.getMessage());
             }
         });
@@ -201,9 +206,11 @@ public class DetectionClientAPI {
         return RetrofitService.getDetectionAPI().add(map);
     }
 
-    private Call<String> login(String email, String password){
-
-        return RetrofitService.getDetectionAPI().login(email,password);
+    private Call<JwtResponse> login(String email, String password){
+        HashMap<String,String> mapauth = new HashMap<>();
+        mapauth.put("email", email);
+        mapauth.put("password", password);
+        return RetrofitService.getDetectionAPI().signin(mapauth);
     }
 
     private Call<List<Maladie>> getMaladies(int patient){
