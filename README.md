@@ -2,9 +2,9 @@
 Ce projet a pour but de mettre en place une interface permettant de d'injecter une image pour la detection du stade de maladie pour un client. C'est un projet mobile android qui suit le design pattern MVVM avec retrofit pour la communication des requetes REST API avec un backend spring boot.
 
 # Fonctionnalités
-1. lister les patients et selectionner maladie par patient
+1. lister les patients et selectionner des maladies par patient
 2. Insérer une image ou prendre une
-3. Créer un enregistrement pour la detection, apres d'avoir valider le resultat obtenu.
+3. Créer un enregistrement pour la detection après d'avoir valider le résultat obtenu.
 # Mise en place du projet
 Pour mettre en place ce projet, vous aurez besoin des éléments suivants :
 
