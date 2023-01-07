@@ -82,9 +82,12 @@ public class DetectionClientAPI {
             @Override
             public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
                 JwtResponse users = response.body();
+                System.out.println("*******************____________________________________!!!!!!!!!!!!!!!!!!!!!");
                 System.out.println(users);
+                System.out.println(users.getEmail()+" 2"+users.getTokenType());
                 check.postValue(users);
                 detectionViewModel1 = DetectionViewModel.getInit();
+                System.out.println("tokon:       "+users.getAccessToken());
                 detectionViewModel1.setToken(users.getAccessToken());
             }
 

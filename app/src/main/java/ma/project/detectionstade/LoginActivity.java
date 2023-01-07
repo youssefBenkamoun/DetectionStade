@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView registerLien;
     private DetectionViewModel detectionViewModel;
+    private DetectionViewModel detectionViewModel1;
 
     EditText email, password;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         detectionViewModel = new ViewModelProvider(this).get(DetectionViewModel.class);
-
+        detectionViewModel1 = DetectionViewModel.getInit();
         Window window;
         window = this.getWindow();
 
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onChanged(JwtResponse check) {
                 if(check != null){
                     Toast.makeText(LoginActivity.this, check.getAccessToken(), Toast.LENGTH_SHORT).show();
+
 //                    if(check.equals("done")){
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
